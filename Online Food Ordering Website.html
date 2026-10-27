@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foodie - Online Food Ordering</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #fff8f0;
+            color: #333;
+        }
+
+        header {
+            background: #ff5722;
+            color: white;
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        header h1 {
+            font-size: 30px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            color: #ffe082;
+        }
+
+        .cart {
+            background: white;
+            color: #ff5722;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .hero {
+            min-height: 350px;
+            padding: 65px 8%;
+            background: linear-gradient(
+                90deg,
+                rgba(0,0,0,.8),
+                rgba(0,0,0,.15)
+            ),
+            url("https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1600&q=80")
+            center/cover;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .hero h2 {
+            font-size: clamp(32px, 5vw, 52px);
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #ff5722;
+            color: white;
+            padding: 12px 22px;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background: #e64a19;
+        }
+
+        section {
+            padding: 45px 7%;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 12px;
+            color: #d84315;
+        }
+
+        .subtitle {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #777;
+        }
+
+        .offer {
+            background: #ffcc80;
+            border-radius: 15px;
+            text-align: center;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .offer h2 {
+            color: #bf360c;
+            margin-bottom: 10px;
+        }
+
+        .categories {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .category {
+            background: white;
+            border: 2px solid #ff7043;
+            color: #d84315;
+            padding: 10px 18px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .category.active,
+        .category:hover {
+            background: #ff5722;
+            color: white;
+        }
+
+        .food-container {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 25px;
+        }
+
+        .food-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px #00000012;
+            transition: transform .3s;
+        }
+
+        .food-card:hover {
+            transform: translateY(-6px);
+        }
+
+        .food-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .food-info {
+            padding: 18px;
+        }
+
+        .food-info h3 {
+            margin-bottom: 10px;
+        }
+
+        .food-info p {
+            color: #777;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .price {
+            color: #e64a19;
+            font-size: 21px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .food-info .btn {
+            width: 100%;
+        }
+
+        .restaurant {
+            background: #fff0e5;
+            text-align: center;
+            line-height: 2;
+        }
+
+        .reviews {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .review {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px #0000000d;
+            line-height: 1.7;
+        }
+
+        .stars {
+            color: #ff9800;
+            font-size: 20px;
+        }
+
+        .contact {
+            text-align: center;
+            background: #ff5722;
+            color: white;
+            line-height: 2;
+        }
+
+        footer {
+            background: #292421;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        @media (max-width: 800px) {
+            .food-container,
+            .reviews {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            header {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .food-container,
+            .reviews {
+                grid-template-columns: 1fr;
+            }
+
+            nav {
+                display: flex;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+
+            nav a {
+                margin: 0;
+            }
+
+            .hero {
+                min-height: 300px;
+                padding: 35px 7%;
+            }
+
+            section {
+                padding: 35px 5%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1> ABRUCHI</h1>
+
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#menu">Menu</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="cart">
+         Cart: <span id="cart-count">0</span>
+    </div>
+</header>
+
+<div class="hero" id="home">
+    <h2>Delicious Food,<br>Delivered Fresh!</h2>
+    <p>Your favorite meals, made with love.</p>
+    <a href="#menu" class="btn">Order Now</a>
+</div>
+
+<section>
+    <div class="offer">
+        <h2> Special Offer!</h2>
+        <p>Get 20% OFF on your favorite meals today.</p>
+        <p>Use code: <strong>FOOD20</strong></p>
+    </div>
+</section>
+
+<section id="menu">
+    <h2 class="section-title">Our Delicious Menu</h2>
+    <p class="subtitle">Fresh ingredients. Amazing taste.</p>
+
+    <div class="categories">
+        <button class="category active"
+                onclick="filterFood('All', this)">All</button>
+        <button class="category"
+                onclick="filterFood('Burger', this)"> Burgers</button>
+        <button class="category"
+                onclick="filterFood('Pizza', this)"> Pizza</button>
+        <button class="category"
+                onclick="filterFood('Biryani', this)"> Biryani</button>
+        <button class="category"
+                onclick="filterFood('Dessert', this)"> Desserts</button>
+    </div>
+
+    <div class="food-container">
+
+        <div class="food-card" data-category="Burger">
+            <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=700&q=80"
+                 alt="Cheese burger">
+            <div class="food-info">
+                <h3>Cheese Burger</h3>
+                <p>Juicy burger with cheese and fresh vegetables.</p>
+                <div class="price">₹149</div>
+                <button class="btn"
+                        onclick="addToCart('Cheese Burger',149)">
+                    Add to Cart
+                </button>
+            </div>
+        </div>
+
+        <div class="food-card" data-category="Pizza">
+            <img src="https://images.unsplash.com/photo- pizza?auto=format&fit=crop&w=700&q=80"
+                 alt="Pizza"
+                 onerror="this.src='https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=700&q=80'">
+            <div class="food-info">
+                <h3>Margherita Pizza</h3>
+                <p>Classic pizza with cheese, tomato and herbs.</p>
+                <div class="price">₹249</div>
+                <button class="btn"
+                        onclick="addToCart('Margherita Pizza',249)">
+                    Add to Cart
+                </button>
+            </div>
+        </div>
+
+        <div class="food-card" data-category="Biryani">
+            <img src="https://images.unsplash.com/photo-1563379091339-03246963d96a?auto=format&fit=crop&w=700&q=80"
+                 alt="Chicken biryani">
+            <div class="food-info">
+                <h3>Chicken Biryani</h3>
+                <p>Flavorful biryani with aromatic spices.</p>
+                <div class="price">₹199</div>
+                <button class="btn"
+                        onclick="addToCart('Chicken Biryani',199)">
+                    Add to Cart
+                </button>
+            </div>
+        </div>
+
+        <div class="food-card" data-category="Burger">
+            <img src="https://images.unsplash.com/photo-1553979459-d2229ba7433a?auto=format&fit=crop&w=700&q=80"
+                 alt="Veg burger">
+            <div class="food-info">
+                <h3>Veg Burger</h3>
+                <p>Crispy vegetable patty with delicious sauce.</p>
+                <div class="price">₹99</div>
+                <button class="btn"
+                        onclick="addToCart('Veg Burger',99)">
+                    Add to Cart
+                </button>
+            </div>
+        </div>
+
+        <div class="food-card" data-category="Pizza">
+            <img src="https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?auto=format&fit=crop&w=700&q=80"
+                 alt="Vegetable pizza">
+            <div class="food-info">
+                <h3>Veggie Pizza</h3>
+                <p>Loaded with colorful vegetables and cheese.</p>
+                <div class="price">₹219</div>
+                <button class="btn"
+                        onclick="addToCart('Veggie Pizza',219)">
+                    Add to Cart
+                </button>
+            </div>
+        </div>
+
+        <div class="food-card" data-category="Dessert">
+            <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=700&q=80"
+                 alt="Chocolate cake">
+            <div class="food-info">
+                <h3>Chocolate Cake</h3>
+                <p>Rich, soft chocolate cake for sweet moments.</p>
+                <div class="price">₹129</div>
+                <button class="btn"
+                        onclick="addToCart('Chocolate Cake',129)">
+                    Add to Cart
+                </button>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<section class="restaurant">
+    <h2 class="section-title">About Our Restaurant</h2>
+    <p> Location: Main Road, Visakhapatnam, India</p>
+    <p> Opening Hours: 10:00 AM – 10:00 PM</p>
+    <p> Rating: 4.8/5</p>
+    <p>We serve freshly prepared meals with quality ingredients.</p>
+</section>
+
+<section id="reviews">
+    <h2 class="section-title">Customer Reviews</h2>
+    <p class="subtitle">What our happy customers say</p>
+
+    <div class="reviews">
+        <div class="review">
+            <div class="stars">★★★★★</div>
+            <p>"The burgers were delicious and the service was great!"</p>
+            <strong>— vinay</strong>
+        </div>
+
+        <div class="review">
+            <div class="stars">★★★★★</div>
+            <p>"Amazing biryani with perfect spices. Highly recommended!"</p>
+            <strong>— lockey</strong>
+        </div>
+
+        <div class="review">
+            <div class="stars">★★★★☆</div>
+            <p>"Loved the pizza and chocolate cake. Will order again."</p>
+            <strong>— Rani</strong>
+        </div>
+    </div>
+</section>
+
+<section class="contact" id="contact">
+    <h2>Contact Us</h2>
+    <p> Phone: +91 98765 43210</p>
+    <p> Email: hello@foodie.example</p>
+    <p>Order delicious food and enjoy every bite!</p>
+</section>
+
+<footer>
+    <p>© 2026 Foodie Restaurant | Made with </p>
+</footer>
+
+<script>
+    let cartCount = 0;
+    let totalAmount = 0;
+    const cartItems = [];
+
+    function addToCart(name, price) {
+        cartCount++;
+        totalAmount += price;
+        cartItems.push({ name, price });
+
+        document.getElementById("cart-count").textContent = cartCount;
+
+        alert(
+            name + " added to cart!\n" +
+            "Total items: " + cartCount + "\n" +
+            "Total amount: ₹" + totalAmount
+        );
+    }
+
+    function filterFood(category, button) {
+        const cards = document.querySelectorAll(".food-card");
+        const buttons = document.querySelectorAll(".category");
+
+        buttons.forEach(btn => btn.classList.remove("active"));
+        button.classList.add("active");
+
+        cards.forEach(card => {
+            if (
+                category === "All" 
+                card.dataset.category === category
+            ) {
+                card.style.display = "block";
+            } else {
+                card.style.display = "none";
+            }
+        });
+    }
+</script>
+</body>
+</html>
